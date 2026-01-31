@@ -10,7 +10,9 @@ services:
     env_file:
       - app/.env.local
     depends_on:
-      - db
+      db:
+        condition: service_healthy
+        restart: true
   db:
     image: postgres:18.1
     ports:
@@ -19,6 +21,12 @@ services:
       - postgres_data:/var/lib/postgresql
     env_file:
       - app/.env.local
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
+      interval: 10s
+      retries: 5
+      start_period: 30s
+      timeout: 10s
 volumes:
   postgres_data:
 
