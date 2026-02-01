@@ -9,4 +9,5 @@ def index(request):
 
 
 def secret(request):
-    return HttpResponse('Welcome to Secret Page')
+    context = {}
+    return render(request, 'core/secret.html', context)

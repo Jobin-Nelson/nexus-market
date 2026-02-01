@@ -148,3 +148,13 @@ AUTHENTICATION_BACKENDS = [
 ACCOUNT_EMAIL_VERIFICATION = 'none'
 LOGIN_REDIRECT_URL = 'secret'
 ACCOUNT_LOGIN_METHODS = ['email', 'username']
+SOCIALACCOUNT_PROVIDERS = {
+    'google': {
+        'EMAIL_AUTHENTICATION': True,
+        'SCOPE': [
+            'profile',
+            'email',
+        ],
+    }
+}
+SOCIALACCOUNT_EMAIL_AUTHENTICATION_AUTO_CONNECT = True

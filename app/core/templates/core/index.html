@@ -1,5 +1,14 @@
 {% extends "core/base.html" %}
+{% load socialaccount %}
 
 {% block content %}
+
 <h1>Welcome to Nexus Market</h1>
+
+{% if not user.is_authenticated %}
+  <h2>Sign In</h2>
+  <a href="{% provider_login_url 'google' next='/secret' %}">Google</a>
+{% endif %}
+
 {% endblock %}
+
