@@ -1,0 +1,40 @@
+compose_file := "../docker-compose.local.yaml"
+volume_name := "nexus-market_postgres_data"
+dj_container := "django_app_local"
+db_url := "postgres://dbuser:dbpassword@localhost:5432/db-local"
+
+
+up:
+  docker compose -f "{{compose_file}}" up -d
+
+down:
+  docker compose -f "{{compose_file}}" down
+
+restart:
+  just down
+  docker compose -f "{{compose_file}}" up -d --build app
+
+remigrate: clean-db populate-db create-superuser
+
+clean-db:
+  @echo $'{{BOLD + YELLOW}}Wiping Database...{{NORMAL}}\n'
+  just down
+  -docker volume rm  "{{volume_name}}"
+  rm -rfv ./core/migrations
+
+populate-db:
+  @echo $'{{BOLD + YELLOW}}Populating Database...{{NORMAL}}\n'
+  uv run manage.py makemigrations core
+  just up
+  docker exec -it "{{dj_container}}" uv run manage.py migrate
+  docker exec -it "{{dj_container}}" uv run manage.py populate_orders
+
+create-superuser:
+  @echo $'{{BOLD + YELLOW}}Creating Superuser...{{NORMAL}}\n'
+  docker exec -it "{{dj_container}}" uv run manage.py createsuperuser
+
+attach-psql:
+  psql "{{db_url}}?sslmode=disable"
+
+attach-lazysql:
+  lazysql "{{db_url}}?sslmode=disable"

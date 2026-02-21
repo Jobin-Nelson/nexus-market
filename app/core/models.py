@@ -16,6 +16,7 @@ class Vendor(models.Model):
     name = models.CharField(max_length=100)
     description = models.TextField(blank=True, null=True)
     image = models.ImageField(upload_to='vendors/images', blank=True, null=True)
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.name
@@ -43,7 +44,7 @@ class ProductSpec(models.Model):
     name = models.CharField(max_length=100)
     description = models.TextField(blank=True, null=True)
     image = models.ImageField(upload_to='products/images', blank=True, null=True)
-    vendor = models.ForeignKey(Vendor, on_delete=models.CASCADE)
+    vendor = models.ForeignKey(User, on_delete=models.CASCADE)
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
     price = models.DecimalField(max_digits=10, decimal_places=2)
     is_active = models.BooleanField(default=True)

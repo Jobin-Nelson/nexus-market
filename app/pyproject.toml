@@ -8,6 +8,7 @@ dependencies = [
     "django>=6.0.1",
     "django-allauth[socialaccount]>=65.14.0",
     "django-mptt>=0.18.0",
+    "djangorestframework>=3.16.1",
     "gunicorn>=24.1.1",
     "pillow>=12.1.0",
     "psycopg[binary]>=3.3.2",
