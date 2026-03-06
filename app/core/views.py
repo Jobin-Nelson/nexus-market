@@ -37,4 +37,5 @@ class DigitalProductListAPIView(generics.ListCreateAPIView):
 class PhysicalProductDetailsAPIView(generics.RetrieveAPIView):
     queryset = PhysicalProduct.objects.all()
     serializer_class = PhysicalProductSerializer
-    lookup_url_kwarg = "physicalproduct_id"
+    # lookup_url_kwarg = "physicalproduct_id"
+    lookup_field = "pk"
