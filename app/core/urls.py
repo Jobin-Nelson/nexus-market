@@ -1,11 +1,18 @@
-from django.urls import path
+from django.urls import include, path
+from rest_framework.routers import DefaultRouter
 
 from . import views
+
+router = DefaultRouter()
+router.register(
+    r'physicalproducts', views.PhysicalProductViewSet, basename='phsyicalproduct'
+)
+router.register(
+    r'digitalproducts', views.DigitalProductViewSet, basename='digitalproduct'
+)
 
 urlpatterns = [
     path('', views.index, name='index'),
     path('secret/', views.secret, name='secret'),
-    path('physical_products/', views.PhysicalProductListAPIView.as_view(), name='physical_product'),
-    path('digital_products/', views.DigitalProductListAPIView.as_view(), name='digital_product'),
-    path('physical_products/<int:pk>/', views.PhysicalProductDetailsAPIView.as_view(), name='physical_product_details'),
+    path('api/', include(router.urls)),
 ]

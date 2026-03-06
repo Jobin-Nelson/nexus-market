@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from rest_framework import generics
+from rest_framework import generics, viewsets
 
 from core.models import DigitalProduct, PhysicalProduct
 from core.serializers import DigitalProductSerializer, PhysicalProductSerializer
@@ -17,25 +17,11 @@ def secret(request):
     return render(request, 'core/secret.html', context)
 
 
-# List views
-# class PhysicalProductListAPIView(generics.ListAPIView):
-#     queryset = PhysicalProduct.objects.all()
-#     serializer_class = PhysicalProductSerializer
-
-
-class PhysicalProductListAPIView(generics.ListCreateAPIView):
+# API
+class PhysicalProductViewSet(viewsets.ModelViewSet):
     queryset = PhysicalProduct.objects.all()
     serializer_class = PhysicalProductSerializer
 
-
-class DigitalProductListAPIView(generics.ListCreateAPIView):
+class DigitalProductViewSet(viewsets.ModelViewSet):
     queryset = DigitalProduct.objects.all()
     serializer_class = DigitalProductSerializer
-
-
-# Detail view
-class PhysicalProductDetailsAPIView(generics.RetrieveAPIView):
-    queryset = PhysicalProduct.objects.all()
-    serializer_class = PhysicalProductSerializer
-    # lookup_url_kwarg = "physicalproduct_id"
-    lookup_field = "pk"
