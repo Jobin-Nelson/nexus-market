@@ -1,7 +1,8 @@
 from django.shortcuts import render
-from rest_framework import generics, viewsets
+from rest_framework import viewsets
 
 from core.models import DigitalProduct, PhysicalProduct
+from core.permissions import IsVendorOrReadOnly
 from core.serializers import DigitalProductSerializer, PhysicalProductSerializer
 
 # Create your views here.
@@ -21,7 +22,10 @@ def secret(request):
 class PhysicalProductViewSet(viewsets.ModelViewSet):
     queryset = PhysicalProduct.objects.all()
     serializer_class = PhysicalProductSerializer
+    permission_classes = [IsVendorOrReadOnly]
+
 
 class DigitalProductViewSet(viewsets.ModelViewSet):
     queryset = DigitalProduct.objects.all()
     serializer_class = DigitalProductSerializer
+    permission_classes = [IsVendorOrReadOnly]
